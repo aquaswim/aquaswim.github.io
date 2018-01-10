@@ -1,1 +1,145 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>helloworld</title><link href=/static/css/app.d1e7f876d4160142c055eb109ddfbdcd.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=/static/js/manifest.9c4ae3fbe9624e513dc8.js></script><script type=text/javascript src=/static/js/vendor.5973cf24864eecc78c48.js></script><script type=text/javascript src=/static/js/app.3ab9e8235d4771b85292.js></script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Coba Home</title>
+	<link rel="icon" href="logo.png">
+	<link rel="stylesheet" type="text/css" href="robotofont.css">
+	<meta charset="utf-8">
+	<style type="text/css">
+	html{
+		width: 100%;
+		height: 100%;
+	}
+	body{
+		width: 100%;
+		height: 100%;
+		margin: 0px;
+	}
+	#maincanvas{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		z-index: 0;
+	}
+	</style>
+</head>
+<body onload="init()">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+<script type="text/javascript">
+let renderer,
+	mainStage,
+	bgStage,obj={},
+	colorArray=[0xa1bacf,0xdedfb3,0xeed3d4,0xf0a1ab,0xcb4f59];
+
+
+function init(){
+	renderer=PIXI.autoDetectRenderer(800,600,{
+		transparent:false
+	});
+	renderer.autoResize=true;
+	document.body.append(renderer.view);
+	renderer.view.id="maincanvas";
+	mainStage=new PIXI.Container();
+	bgStage=new PIXI.Container();
+	mainStage.addChild(bgStage);
+	//make BG obj
+	obj.circles=[];
+	for (var i = 0; i < colorArray.length; i++) {
+		obj.circles.push((function(){
+			let circle=new PIXI.Graphics();
+			circle.beginFill(colorArray[i],1);
+			circle.drawCircle(0,0,50*(colorArray.length-i));
+			bgStage.addChild(circle);
+			circle.visible=false;
+			circle.alpha=0;
+			let t=new TWEEN.Tween(circle);
+			t
+				.to({alpha:1},500)
+				.delay(250*i)
+				.onStart(function(){
+					this.visible=true;
+				})
+				.start()
+			return circle;
+		})());
+	}
+	//terakhir
+	initResize();
+	initMouseMove();
+	initMouseDown();
+	requestAnimationFrame(loop);
+}
+let scaleDiv=1;
+function initResize(){
+	function onResize(){
+		if(renderer){
+			renderer.resize(document.body.clientWidth,document.body.clientHeight);
+			if(bgStage){
+				bgStage.position.set(renderer.width/2,renderer.height/2);
+				//targetSize=scalediv*normSize
+				//scaleDiv=targetSize/normSize
+				scaleDiv=((renderer.width<renderer.height?renderer.width:renderer.height)*0.75)/(colorArray.length*100);
+				i=0;
+				obj.circles.forEach(function(o){
+					//o.scale.set(scaleDiv);
+					let t=new TWEEN.Tween(o.scale);
+					t
+						.to({x:scaleDiv,y:scaleDiv},1000)
+						.delay(150*i++)
+						.easing(TWEEN.Easing.Elastic.InOut)
+						.start()
+				});
+			}
+		}
+	};
+	onResize();
+	addEventListener("resize",onResize);
+}
+function initMouseMove(){
+	addEventListener("mousemove",onMouseMove);
+	function onMouseMove(e){
+		//console.log(map(renderer.screen.left,renderer.screen.right,-100,100,mousePos.x));
+		let movement=scaleDiv*75;
+		let middleCircles=(obj.circles.length%2===0?obj.circles.length/2:(obj.circles.length+1)/2)/2;
+		for (var i = 0; i < obj.circles.length; i++) {
+			obj.circles[i].position.set(map(renderer.screen.left,renderer.screen.right,-movement*(i-middleCircles),movement*(i-middleCircles),e.clientX),map(renderer.screen.top,renderer.screen.bottom,-movement*(i-middleCircles),movement*(i-middleCircles),e.clientY));
+		}
+	}
+}
+function initMouseDown(){ 
+	renderer.view.addEventListener("mousedown",onMouseDown);
+	let touchableCircle=obj.circles[obj.circles.length-1];
+	function onMouseDown(e){
+		let tarPos=touchableCircle.toGlobal(mainStage);
+		if(Distance(e.clientX,e.clientY,tarPos.x,tarPos.y)<=(touchableCircle.width/2)){
+			for(let i=0;i<obj.circles.length;i++){
+				let t=new TWEEN.Tween(obj.circles[i].scale);
+				t.to({x:0,y:0},1000).yoyo(true).repeat(1).delay(1000/obj.circles.length*i).start().easing(TWEEN.Easing.Elastic.InOut);
+			}
+		}
+	}
+	function Distance(x1,y1,x2,y2){
+		return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
+	}
+}
+function loop(){
+	requestAnimationFrame(loop);
+	renderer.render(mainStage);
+	TWEEN.update();
+}
+///////////////MATH HELPER/////////////////////////
+function norm(min,max,val){
+	return (val-min)/(max-min);
+}
+function map(min,max,tmin,tmax,val){
+	return ((norm(min,max,val)*(tmax-tmin))+tmin);
+}
+function mapNorm(tmin,tmax,normval){
+	return ((normval*(tmax-tmin))+tmin);
+}
+</script>
+</body>
+</html>
