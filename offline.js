@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1529973994,
+	"version": 1529975675,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -46,6 +46,11 @@
 		"media/clue.ogg",
 		"media/ans_false.ogg",
 		"media/ans_true.ogg",
+		"media/suara_ayam.ogg",
+		"media/suara_babi.ogg",
+		"media/suara_bebek.ogg",
+		"media/suara_kambing.ogg",
+		"media/suara_sapi.ogg",
 		"media/background_gamemenu_audio_monkeys spinning monkeys (kevin macleod) - gaming background music (hd) - youtube.ogg",
 		"media/background_gameplay_audio_laureate - vanoss gaming background music (hd) - youtube.ogg",
 		"icon-16.png",

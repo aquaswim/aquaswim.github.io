@@ -22265,4 +22265,3 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Text.prototype.acts.SetText,
 	cr.behaviors.Fade.prototype.cnds.OnFadeInEnd
 ];};
-

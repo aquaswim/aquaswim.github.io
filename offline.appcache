@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-#1529973994
+#1529975675
 data.js
 c2runtime.js
 jquery-2.1.1.min.js
@@ -45,6 +45,11 @@ media/click.ogg
 media/clue.ogg
 media/ans_false.ogg
 media/ans_true.ogg
+media/suara_ayam.ogg
+media/suara_babi.ogg
+media/suara_bebek.ogg
+media/suara_kambing.ogg
+media/suara_sapi.ogg
 media/background_gamemenu_audio_monkeys%20spinning%20monkeys%20(kevin%20macleod)%20-%20gaming%20background%20music%20(hd)%20-%20youtube.ogg
 media/background_gameplay_audio_laureate%20-%20vanoss%20gaming%20background%20music%20(hd)%20-%20youtube.ogg
 icon-16.png
