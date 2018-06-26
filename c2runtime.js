@@ -22214,9 +22214,9 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Function,
 	cr.plugins_.Keyboard,
 	cr.plugins_.Spritefont2,
-	cr.plugins_.Text,
-	cr.plugins_.TiledBg,
 	cr.plugins_.XML,
+	cr.plugins_.TiledBg,
+	cr.plugins_.Text,
 	cr.plugins_.Sprite,
 	cr.behaviors.Fade,
 	cr.system_object.prototype.cnds.OnLayoutStart,
@@ -22263,5 +22263,8 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Keyboard.prototype.exps.StringFromKeyCode,
 	cr.plugins_.Keyboard.prototype.exps.LastKeyCode,
 	cr.plugins_.Text.prototype.acts.SetText,
-	cr.behaviors.Fade.prototype.cnds.OnFadeInEnd
+	cr.behaviors.Fade.prototype.cnds.OnFadeInEnd,
+	cr.plugins_.Sprite.prototype.acts.SetVisible,
+	cr.behaviors.Fade.prototype.acts.StartFade,
+	cr.plugins_.Spritefont2.prototype.acts.SetVisible
 ];};

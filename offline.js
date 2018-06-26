@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1529975675,
+	"version": 1529988517,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -42,6 +42,7 @@
 		"images/sf_winlose-sheet0.png",
 		"images/dialog_duci-sheet0.png",
 		"images/button_-sheet0.png",
+		"images/sprite2-sheet0.png",
 		"media/click.ogg",
 		"media/clue.ogg",
 		"media/ans_false.ogg",
