@@ -88,7 +88,9 @@
   });
 
   w.setInterval(function(){
-    w.hiasan.addEffect(random_range(0,w.hiasan.width), random_range(0, w.hiasan.height), random_range(100, 500));
+    //only add effect if window has focus
+    if(w.document.hasFocus())
+      w.hiasan.addEffect(random_range(0,w.hiasan.width), random_range(0, w.hiasan.height), random_range(100, 500));
   }, 1000);
 
 })(window);
