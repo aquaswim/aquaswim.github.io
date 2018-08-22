@@ -8,9 +8,11 @@
     return 'rgba('+r+', '+g+', '+b+', '+o+')';
   }
   function random_range(min, max){
-    return (Math.random()*(max-min))+min;
+    return Math.floor((Math.random()*(max-min))+min);
   }
-  function makeCLickEffect(x, y, maxSize, color = [255,255,255]){
+  function makeClickEffect(x, y, maxSize, color){
+    if(!color)
+      color = [0,0,0];
     var _obj = {
       x: x,
       y: y,
@@ -19,7 +21,8 @@
       color: color,
       render: function(ctx){
         if(this.size < this.maxSize){
-          ctx.strokeStyle = make_color(0,0,0, (this.maxSize-this.size)/this.maxSize);
+          ctx.strokeStyle = make_color(this.color[0],this.color[1],this.color[2], (this.maxSize-this.size)/this.maxSize);
+          ctx.lineWidth=3;
           ctx.beginPath();
           ctx.arc(this.x,this.y,this.size,0,_2phi);
           ctx.stroke();
@@ -33,6 +36,33 @@
 
     return _obj;
   }
+  
+  function interpolateColor(color1, color2, factor) {
+      if (arguments.length < 3) { 
+          factor = 0.5; 
+      }
+      var result = color1.slice();
+      for (var i = 0; i < 3; i++) {
+          result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+      }
+      return result;
+  };
+  // My function to interpolate between two colors completely, returning an array
+  function interpolateColors(color1, color2, steps) {
+      var stepFactor = 1 / (steps - 1),
+          interpolatedColorArray = [];
+
+      color1 = color1.match(/\d+/g).map(Number);
+      color2 = color2.match(/\d+/g).map(Number);
+
+      for(var i = 0; i < steps; i++) {
+          interpolatedColorArray.push(interpolateColor(color1, color2, stepFactor * i));
+      }
+
+      return interpolatedColorArray;
+  }
+
+  var _stock_colors = interpolateColors("rgb(95, 205, 255)", "rgb(175, 42, 239)", 10);
 
   w.hiasan = {
     init: function(ele){
@@ -74,7 +104,8 @@
         render();
     },
     addEffect: function(x, y, size = 100){
-      this._eff.push(makeCLickEffect(x, y, size));
+      var color = _stock_colors[random_range(0,_stock_colors.length)];
+      this._eff.push(makeClickEffect(x, y, size, color));
     }
   };
 

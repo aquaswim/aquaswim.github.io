@@ -21,3 +21,8 @@ body{
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+.delay-secret{
+  -webkit-animation-delay: 15s;
+  animation-delay: 15s;
+}
