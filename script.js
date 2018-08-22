@@ -7,6 +7,9 @@
   function make_color(r,g,b,o=1.0){
     return 'rgba('+r+', '+g+', '+b+', '+o+')';
   }
+  function random_range(min, max){
+    return (Math.random()*(max-min))+min;
+  }
   function makeCLickEffect(x, y, maxSize, color = [255,255,255]){
     var _obj = {
       x: x,
@@ -70,8 +73,8 @@
       if(this.playing === true)
         render();
     },
-    addEffect: function(x, y){
-      this._eff.push(makeCLickEffect(x, y, 100));
+    addEffect: function(x, y, size = 100){
+      this._eff.push(makeCLickEffect(x, y, size));
     }
   };
 
@@ -81,11 +84,11 @@
   });
 
   w.hiasan.ele.addEventListener('click', function(e){
-    hiasan.addEffect(e.clientX, e.clientY);
+    w.hiasan.addEffect(e.clientX, e.clientY);
   });
 
   w.setInterval(function(){
-    
+    w.hiasan.addEffect(random_range(0,w.hiasan.width), random_range(0, w.hiasan.height), random_range(100, 500));
   }, 1000);
 
 })(window);
